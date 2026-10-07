@@ -22,9 +22,12 @@ The initial scope of the server is to recreate my server with everything I curre
 
 There are two rules for this project:
 1. Everything I use must be free and open source so that I am free to use my server however I want and nobody can withhold my server from me using a subscription tier.
-2. This project is for my own self-improvement, I will not use AI to generate any code.
+2. This project is for my own self-improvement, I will not use AI to generate any code. Doing it myself is the best way for me to learn from this project.
 
 ## Infrastructure Technologies (and why)
+
+### Multipass
+[Multipass](https://canonical.com/multipass) is Canonical's lightweight VM manager for Linux, Windows, and macOS. It spins up Ubuntu instances in seconds, and I initially setup my home server with Ubuntu Server. So using multipass will allow me to test the server configuration on my local machine.
 
 ### OpenTofu
 [OpenTofu](https://opentofu.org/docs) will define resources on my server with IaC. It's a free and open source alternative to terraform, which I am already familiar with in my professional work. Additionally, it is cloud provider agnostic, should I want to create a cloud server based on what I build with this project.
@@ -34,3 +37,8 @@ There are two rules for this project:
 
 ### Kubernetes
 [Kubernetes](https://kubernetes.io/) will manage my application containers, in particular it will restart the applications in the event that they crash, something my previous setup lacks. It is also a very widely adopted container manager for good reason, and just like OpenTofu it is cloud provider agnostic.
+
+# Getting Started
+1. [Install Multipass](https://canonical.com/multipass/install)
+2. [Install OpenTofu](https://opentofu.org/docs/intro/install/)
+3. Run `tofu init` in the `infrastructure` directory.
