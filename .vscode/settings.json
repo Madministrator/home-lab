@@ -3,6 +3,7 @@
         "Immich",
         "Jellyfin",
         "Navidrome",
+        "runcmd",
         "terraformrc",
         "tfstate",
         "tfvars"
