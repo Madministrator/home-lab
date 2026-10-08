@@ -1,11 +1,13 @@
 {
     "cSpell.words": [
+        "cpus",
         "Immich",
         "Jellyfin",
         "Navidrome",
         "runcmd",
         "terraformrc",
         "tfstate",
-        "tfvars"
+        "tfvars",
+        "todoroff"
     ]
 }

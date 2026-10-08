@@ -1,4 +1,4 @@
-# Evan's Home lab
+# My Home lab
 
 I've previously used some simple GUI based software to setup a home server on an old laptop to host my digital media collection. However, all of it was managed in-app using pre-set controls in a very naive implementation. In the event of a catastrophic failure in which I need to replace home server hardware, I would have to start over from scratch. In my professional career as a Software Engineer working on cloud based server applications, I have developed skills working with terraform/openTofu, helm, and other infrastructure-as-code (IaC) solutions to manage both applications and Kubernetes clusters.
 
@@ -32,9 +32,6 @@ There are two rules for this project:
 ### OpenTofu
 [OpenTofu](https://opentofu.org/docs) will define resources on my server with IaC. It's a free and open source alternative to terraform, which I am already familiar with in my professional work. Additionally, it is cloud provider agnostic, should I want to create a cloud server based on what I build with this project.
 
-### Grafana
-[Grafana](https://grafana.com/oss/grafana/) is but one application in a library of free and open source applications for monitoring purposes, which means if I want to expand my monitoring stack I have easily compatible options in that ecosystem. Grafana also comes with thorough documentation and tutorials, making it well suited for a project that is as much about learning as it is about creating a home server.
-
 ### Kubernetes
 [Kubernetes](https://kubernetes.io/) will manage my application containers, in particular it will restart the applications in the event that they crash, something my previous setup lacks. It is also a very widely adopted container manager for good reason, and just like OpenTofu it is cloud provider agnostic. In my simple home server where I am the primary user of all services on the server, high availability is not a concern and I will be using a single-node topology.
 
@@ -43,8 +40,17 @@ I will specifically be using [K3s](https://k3s.io/) to run the Kubernetes cluste
 - It's built for IoT hardware, which means my server running on an old laptop will have more than enough resources.
 - Tools like minikube are explicitly for developer learning environments, K3s is production-grade. I intend to use my home server like a production environment.
 
+### Helm
+[Helm](https://helm.sh/docs/) is a package manager for Kubernetes. It will manage all the configuration necessary to deploy applications in the Kubernetes cluster. Especially convenient because it has an [OpenTofu provider](https://search.opentofu.org/provider/opentofu/helm/latest) to make configuring the cluster easy as part of the tofu config.
+
+### Grafana
+[Grafana](https://grafana.com/oss/grafana/) is but one application in a library of free and open source applications for monitoring purposes, which means if I want to expand my monitoring stack I have easily compatible options in that ecosystem. Grafana also comes with thorough documentation and tutorials, making it well suited for a project that is as much about learning as it is about creating a home server.
+
 # Getting Started
+
+## Install tools
 1. [Install Multipass](https://canonical.com/multipass/install)
 2. [Install OpenTofu](https://opentofu.org/docs/intro/install/)
 3. [Install Kubectl](https://kubernetes.io/docs/tasks/tools/)
-4. Run `tofu init` in the `infrastructure` directory.
+4. [Install Helm](https://helm.sh/docs/intro/install)
+
