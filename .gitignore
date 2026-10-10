@@ -1,6 +1,9 @@
 # I don't need to commit temporary notes
 docs/scratchpad.md
 
+# output contains kube config that shouldn't be committed
+**/output/*
+
 # OpenTofu .gitignore template https://github.com/github/gitignore/blob/main/community/OpenTofu.gitignore
 # Local .terraform directories
 **/.terraform/*
