@@ -10,6 +10,7 @@ The initial scope of the server is to recreate my server with everything I curre
 - [Jellyfin](https://jellyfin.org/) for media streaming (excluding music)
 - [Navidrome](https://www.navidrome.org/) for music streaming
 - Grafana for monitoring both the applications and the hardware itself (data retention for 1 month)
+- Headlamp as a K8s dashboard
 - Everything runs as a docker image on a Kubernetes cluster
 
 ## Wishlist

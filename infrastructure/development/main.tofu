@@ -1,14 +1,7 @@
 # Development tofu config
-#
-# Role: Use multipass to spin up ubuntu image (because the home server uses Ubuntu)
-# and then run the same infrastructure steps on that ubuntu image that I would run
-# on my Ubuntu server.
-#
-# Note: Eventually, I will move resources into a shared module so instructions can
-# be reused between this dev tofu and the prod tofu. But first, I need to get dev
-# in a working state before I start thinking about prod deployments
-#
-# Current Goal: Hello World Kubernetes equivalent running on a multipass VM
+# Uses multipass to setup an ubuntu VM (because the home server uses Ubuntu) 
+# and then deploys a single K3s node to that VM. Deploying resources to the
+# K3s cluster is executed using config in the ./helm directory.
 
 # After running `tofu apply` I should be able to run `multipass k3s-kubectl get nodes`
 # to fetch the single node
