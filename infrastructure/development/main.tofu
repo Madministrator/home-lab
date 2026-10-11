@@ -62,3 +62,12 @@ output "cluster_nodes" {
     server = multipass_instance.k3s_server.ipv4
   }
 }
+
+# Run script to fetch K3s credentials from the VM so it's accessible for helm
+resource "null_resource" "acquire_credentials" { # null_resource because I'm not creating anything here
+  depends_on = [ multipass_instance.k3s_server ] # won't run the script until the VM is created
+
+  provisioner "local-exec" {
+    command = "${path.module}/scripts/fetch-config.sh -i k3s-server -s ${multipass_instance.k3s_server.ipv4[0]}"
+  }
+}

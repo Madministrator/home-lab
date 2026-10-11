@@ -24,8 +24,8 @@ while getopts ":i:s:" option; do
   esac
 done
 
-echo "Instance name: $instance"
-echo "Server address: $server_address"
+# echo "Instance name: $instance"
+# echo "Server address: $server_address"
 
 # Step 1: Check that the K3s cluster is live
 timeout_seconds=10
@@ -36,7 +36,7 @@ while (( SECONDS < deadline )); do
     multipass exec "$instance" -- sudo k3s kubectl get nodes --no-headers 2>/dev/null
   ) || nodes=""
 
-  echo "nodes = $nodes"
+  # echo "nodes = $nodes"
   if [ -n "$nodes" ]; then
     echo "K3s is ready."
     break
@@ -52,7 +52,8 @@ if (( SECONDS >= deadline )); then
 fi
 
 # Step 2: Fetch the kube config from the VM
-file_name="./output/k3s.yaml"
+script_parent_directory=$(dirname $(dirname "$0"))
+file_name="$script_parent_directory/output/k3s.yaml"
 multipass exec k3s-server -- sudo cat /etc/rancher/k3s/k3s.yaml > $file_name
 chmod 600 $file_name
 echo "Fetched K3s.yaml"
