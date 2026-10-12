@@ -1,8 +1,11 @@
 {
     "cSpell.words": [
+        "abspath",
         "cpus",
+        "fileexists",
         "Immich",
         "Jellyfin",
+        "kubeconfig",
         "Navidrome",
         "runcmd",
         "terraformrc",
