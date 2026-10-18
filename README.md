@@ -60,8 +60,8 @@ For experimentation purposes, a multipass Ubuntu VM is used to experiment with c
 
 ### Step 1. setup the VM with a K3s cluster
 ```zsh
-tofu init -chdir="./infrastructure/development
-tofu apply -chdir="./infrastructure/development --auto-approve
+tofu init -chdir="./infrastructure/development"
+tofu apply -chdir="./infrastructure/development" --auto-approve
 ```
 Make note of the VM's IP address, which is output after the apply.
 To confirm the tofu plan applied successfully, you should see a single node when you run `multipass k3s-kubectl get nodes`.
@@ -81,5 +81,5 @@ paste the token into the web UI.
 ### Tear down development
 Because everything is built on the VM, asking tofu to delete the VM will automatically clean up all subsequent stages.
 ```zsh
-tofu destroy -chdir="./infrastructure/development --auto-approve
+tofu destroy -chdir="./infrastructure/development" --auto-approve
 ```
