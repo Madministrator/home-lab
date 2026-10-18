@@ -12,6 +12,9 @@ terraform {
       source  = "opentofu/helm"
       version = "3.3.0"
     }
+    kubernetes = {
+      source = "opentofu/kubernetes"
+    }
   }
 }
 
@@ -21,12 +24,15 @@ locals {
 }
 
 provider "helm" {
-  repository_config_path = local.repository_config_path
-
   kubernetes = {
     # Helm needs the k3s credentials from the file the parent fetched
     config_path = local.kubeconfig_path
   }
+  repository_config_path = local.repository_config_path
+}
+
+provider "kubernetes" {
+  config_path = local.kubeconfig_path
 }
 
 # Check kube config file exists before attempting to use it for helm
@@ -56,7 +62,32 @@ resource "helm_release" "k3s-headlamp" {
   atomic           = true
 }
 
-# TODO: create ingress so I don't have to port-forward to access headlamp
+# Create a service account for headlamp access to K3s resources (enables logging in with headlamp)
+resource "kubernetes_service_account_v1" "headlamp_login" {
+  metadata {
+    name      = "headlamp-login"
+    namespace = "kube-system"
+  }
+}
 
-# TODO: create service account roles etc. so I have tokens to log into 
-# headlamp with. Output said token from Tofu. 
+resource "kubernetes_cluster_role_binding_v1" "headlamp_login_binding" {
+  metadata {
+    name = "headlamp-login-admin"
+  }
+
+  subject {
+    kind      = "ServiceAccount"
+    name      = kubernetes_service_account_v1.headlamp_login.metadata[0].name
+    namespace = kubernetes_service_account_v1.headlamp_login.metadata[0].namespace
+  }
+
+  role_ref {
+    api_group = "rbac.authorization.k8s.io"
+    kind      = "ClusterRole"
+    name      = "cluster-admin"
+  }
+}
+
+## After the binding applies, get headlamp token with `multipass k3s-kubectl -- create token headlamp-login -n kube-system`
+
+# TODO: create ingress so I don't have to port-forward to access headlamp
