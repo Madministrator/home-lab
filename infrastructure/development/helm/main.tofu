@@ -60,6 +60,23 @@ resource "helm_release" "k3s-headlamp" {
   create_namespace = false
   wait             = true
   atomic           = true
+
+  values = [yamlencode({
+    config = {
+      baseURL = "/headlamp"
+    }
+    ingress = {
+      enabled          = true
+      ingressClassName = "traefik"
+      hosts = [{
+        host = ""
+        paths = [{
+          path = "/headlamp"
+          type = "Prefix"
+        }]
+      }]
+    }
+  })]
 }
 
 # Create a service account for headlamp access to K3s resources (enables logging in with headlamp)
