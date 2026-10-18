@@ -1,0 +1,4 @@
+apiVersion: v1
+repositories:
+  - name: headlamp
+    url: https://kubernetes-sigs.github.io/headlamp/
