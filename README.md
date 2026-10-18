@@ -2,7 +2,7 @@
 
 I've previously used some simple GUI based software to setup a home server on an old laptop to host my digital media collection. However, all of it was managed in-app using pre-set controls in a very naive implementation. In the event of a catastrophic failure in which I need to replace home server hardware, I would have to start over from scratch. In my professional career as a Software Engineer working on cloud based server applications, I have developed skills working with terraform/openTofu, helm, and other infrastructure-as-code (IaC) solutions to manage both applications and Kubernetes clusters.
 
-This project is the continued application and expansion of my professional skills as a software engineer to define a home server using IaC so that I can easily setup, teardown, monitor, and experiment with a home server without being concerned about loosing settings. Additionally, defining IaC in this way will make it easier to recover my server should the old laptop server encounter physical device failure, or I simply upgrade to newer hardware.
+This project is the continued application and expansion of my professional skills as a software engineer to define a home server using IaC so that I can easily setup, teardown, monitor, and experiment with a home server without being concerned about losing settings. Additionally, defining IaC in this way will make it easier to recover my server should the old laptop server encounter physical device failure, or I simply upgrade to newer hardware.
 
 ## Initial Scope
 The initial scope of the server is to recreate my server with everything I currently have in a non-IaC setup.
@@ -55,3 +55,31 @@ I will specifically be using [K3s](https://k3s.io/) to run the Kubernetes cluste
 3. [Install Kubectl](https://kubernetes.io/docs/tasks/tools/)
 4. [Install Helm](https://helm.sh/docs/intro/install)
 
+## Local development
+For experimentation purposes, a multipass Ubuntu VM is used to experiment with configurations before applying changes to the actual cluster. These commands are written to be run from the repo root.
+
+### Step 1. setup the VM with a K3s cluster
+```zsh
+tofu init -chdir="./infrastructure/development
+tofu apply -chdir="./infrastructure/development --auto-approve
+```
+Make note of the VM's IP address, which is output after the apply.
+To confirm the tofu plan applied successfully, you should see a single node when you run `multipass k3s-kubectl get nodes`.
+
+### Step 2. Apply helm config in the K3s cluster
+```zsh
+helm repo update --repository-config infrastructure/development/helm/helm_repository_config.yaml
+tofu init -chdir="./infrastructure/development/helm
+tofu apply -chdir="./infrastructure/development/helm --auto-approve
+```
+
+### Step 3. Verify results
+Once the helm infrastructure is in place, you should be able to reach a [headlamp](https://headlamp.dev/) application on `http://<VM IP>/headlamp/`
+To get a token headlamp can use to manage the K3s cluster, run `multipass k3s-kubectl -- create token headlamp-login -n kube-system | pbcopy` and 
+paste the token into the web UI.
+
+### Tear down development
+Because everything is built on the VM, asking tofu to delete the VM will automatically clean up all subsequent stages.
+```zsh
+tofu destroy -chdir="./infrastructure/development --auto-approve
+```

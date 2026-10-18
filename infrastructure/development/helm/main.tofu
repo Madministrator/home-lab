@@ -48,10 +48,7 @@ resource "terraform_data" "kubeconfig_precondition" {
 }
 
 # Add Headlamp so I have a Kubernetes Web UI
-
-# # now you should be able to install headlamp via helm
-# helm install my-headlamp headlamp/headlamp --namespace kube-system
-
+## The ingress should make the application reachable at http://<VM IP address>/headlamp/ (the trailing slash is essential)
 resource "helm_release" "k3s-headlamp" {
   name      = "k3s-headlamp"
   namespace = "kube-system"
@@ -80,6 +77,7 @@ resource "helm_release" "k3s-headlamp" {
 }
 
 # Create a service account for headlamp access to K3s resources (enables logging in with headlamp)
+## After the binding applies, get headlamp token with `multipass k3s-kubectl -- create token headlamp-login -n kube-system`
 resource "kubernetes_service_account_v1" "headlamp_login" {
   metadata {
     name      = "headlamp-login"
@@ -104,7 +102,3 @@ resource "kubernetes_cluster_role_binding_v1" "headlamp_login_binding" {
     name      = "cluster-admin"
   }
 }
-
-## After the binding applies, get headlamp token with `multipass k3s-kubectl -- create token headlamp-login -n kube-system`
-
-# TODO: create ingress so I don't have to port-forward to access headlamp
