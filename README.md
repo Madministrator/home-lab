@@ -34,7 +34,7 @@ There are two rules for this project:
 [OpenTofu](https://opentofu.org/docs) will define resources on my server with IaC. It's a free and open source alternative to terraform, which I am already familiar with in my professional work. Additionally, it is cloud provider agnostic, should I want to create a cloud server based on what I build with this project.
 
 ### Kubernetes
-[Kubernetes](https://kubernetes.io/) will manage my application containers, in particular it will restart the applications in the event that they crash, something my previous setup lacks. It is also a very widely adopted container manager for good reason, and just like OpenTofu it is cloud provider agnostic. In my simple home server where I am the primary user of all services on the server, high availability is not a concern and I will be using a single-node topology.
+[Kubernetes](https://kubernetes.io/) will manage my application containers, in particular it will restart the applications in the event that they crash, something my previous setup lacked. It is also a very widely adopted container manager for good reason, and just like OpenTofu it is cloud provider agnostic. In my simple home server where I am the primary user of all services on the server, high availability is not a concern and I will be using a single-node topology.
 
 I will specifically be using [K3s](https://k3s.io/) to run the Kubernetes cluster. I compared K3s to other alternatives such as [minikube](https://minikube.sigs.k8s.io/docs/), and I chose K3s for the following reasons:
 - Very lightweight, K3s is a single sub-100MB binary.
